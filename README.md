@@ -81,15 +81,20 @@ ini
   interval = "5s"
   timeout = "28s"
   data_format = "influx"
-4.	Telegraf에 권한 부여: Telegraf가 외부 스크립트를 실행하기 위해 권한을 부여합니다.
+![image](https://github.com/user-attachments/assets/9398b1a5-2310-46a7-b25c-e2a7e6336a8c)
+아래 내용을 [[putputs.influxdb]] 섹션에 추가합니다:
+<img width="648" alt="스크린샷 2024-10-05 오전 1 19 02" src="https://github.com/user-attachments/assets/ec833d68-8e7b-4783-9023-61e66eb78420">
+
+5.	Telegraf에 권한 부여: Telegraf가 외부 스크립트를 실행하기 위해 권한을 부여합니다.
 bash
 코드 복사
 sudo visudo
 아래 항목을 추가합니다:
-sql
-코드 복사
+
 telegraf ALL=(ALL) NOPASSWD:ALL
-5.	Telegraf 재시작:
+<img width="462" alt="image" src="https://github.com/user-attachments/assets/563be538-e57d-444b-87e6-a63fae63dd65">
+
+7.	Telegraf 재시작:
 bash
 코드 복사
 sudo systemctl restart telegraf
@@ -113,19 +118,24 @@ o	Grafana에서 데이터 소스 URL을 올바르게 입력했는지 확인합�
 o	http://<InfluxDB 서버 IP>:8086 형태로 입력합니다.
 •	Telegraf 권한 문제 발생 시:
 o	sudo visudo를 통해 Telegraf에 올바른 권한이 부여되었는지 확인합니다.
-5. 데이터 보존 정책 설정
+아래 명령어를 통해 telegraf가 Python 스크립트를 올바르게 실행되고 있는지 확인합니다. 
+![image](https://github.com/user-attachments/assets/d8d10bb7-93b1-4dd7-94ac-580156dde5cc)
+
+6. 데이터 보존 정책 설정
 •	30일 이상 데이터 보존 정책 적용:
 sql
 코드 복사
 CREATE RETENTION POLICY "one_month" ON "telegrafdb" DURATION 30d REPLICATION 1 DEFAULT;
+![image](https://github.com/user-attachments/assets/653508f6-8a85-450d-9ca7-f4407b0756b7)
+
 o	해당 정책이 적용되었는지 확인하려면 아래 명령어를 사용합니다.
 sql
 코드 복사
 SHOW RETENTION POLICIES ON "telegrafdb";
-6. 참고 링크
+7. 참고 링크
 •	Nexus Traffic Monitoring 설치 가이드
 •	Grafana, InfluxDB, Telegraf 설치 가이드
-7. 마무리
+8. 마무리
 이 문서에서는 Cisco Nexus 스위치와 TIG 스택을 이용하여 트래픽 데이터를 수집하고 시각화하는 방법에 대해 설명했습니다. 모든 절차를 따라 완료한 후, Cisco 장비의 네트워크 트래픽을 효과적으로 모니터링할 수 있습니다.
 문서의 모든 설정이 정상적으로 이루어졌는지 확인하고, 필요 시 로그와 설정 파일을 점검하여 문제를 해결하시기 바랍니다.
 
